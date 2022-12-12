@@ -26,5 +26,6 @@ jobs:
       - name: Wait 5 second
         run: sleep 5s
       - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Check time
         id: time2
         run: echo "time2=$(date)" >> $GITHUB_OUTPUT
