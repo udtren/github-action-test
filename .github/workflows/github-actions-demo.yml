@@ -15,4 +15,8 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+      - name: Wait 5 second
+        run: sleep 5s
+      - name: Check time
+        run: echo "$(data)"
       - run: echo "🍏 This job's status is ${{ job.status }}."
