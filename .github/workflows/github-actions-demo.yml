@@ -29,5 +29,5 @@ jobs:
         id: time2
         run: echo "time=$(date)" >> $GITHUB_OUTPUT
       - run: echo "🍏 This job's status is ${{ job.status }}."
-      - name: Dump job context
-        run: echo '${{ toJSON(job) }}'
+      - name: Dump steps context
+        run: echo '${{ toJSON(steps) }}'
