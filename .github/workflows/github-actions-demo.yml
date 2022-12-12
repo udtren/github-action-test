@@ -4,6 +4,9 @@ on: [push]
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.time1.outputs }}
+      output2: ${{ steps.time2.outputs }}
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
@@ -18,18 +21,10 @@ jobs:
       - name: Wait 5 second
         run: sleep 5s
       - name: Check time
-        run: echo "$(date)"
+        id: time1
+        run: echo "time1=$(date)" >> $GITHUB_OUTPUT
+      - name: Wait 5 second
+        run: sleep 5s
       - run: echo "🍏 This job's status is ${{ job.status }}."
-      - name: Dump GitHub context
-        id: github_context_step
-        run: echo '${{ toJSON(github) }}'
-      - name: Dump job context
-        run: echo '${{ toJSON(job) }}'
-      - name: Dump steps context
-        run: echo '${{ toJSON(steps) }}'
-      - name: Dump runner context
-        run: echo '${{ toJSON(runner) }}'
-      - name: Dump strategy context
-        run: echo '${{ toJSON(strategy) }}'
-      - name: Dump matrix context
-        run: echo '${{ toJSON(matrix) }}
+        id: time2
+        run: echo "time2=$(date)" >> $GITHUB_OUTPUT
