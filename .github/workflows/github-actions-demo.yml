@@ -21,6 +21,8 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+      - run: current_commit=`git log -n 1 --pretty=format:%H`
+      - run: echo $current_commit
       # - name: Wait 5 second
       #   run: sleep 5s
       # - name: Check time
