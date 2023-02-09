@@ -21,8 +21,12 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - run: current_commit=`git log -n 1 --pretty=format:%H`
-      - run: echo $current_commit
+      - id: files
+        uses: jitterbit/get-changed-files@v1
+      - run: |
+          for changed_file in ${{ steps.files.outputs.all }}; do
+            echo "Do something with this ${changed_file}."
+          done
       # - name: Wait 5 second
       #   run: sleep 5s
       # - name: Check time
