@@ -40,3 +40,9 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: Dump steps context
         run: echo '${{ toJSON(steps) }}'
+      - id: foo
+        uses: actions/hello-world-composite-action@v1
+        with:
+          commit-message: 'Hello from prd'
+      - run: echo random-number ${{ steps.foo.outputs.test-output }}
+        shell: bash
