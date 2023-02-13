@@ -41,7 +41,7 @@ jobs:
       - name: Dump steps context
         run: echo '${{ toJSON(steps) }}'
       - id: foo
-        uses: actions/github-actions-composite-action@v1
+        uses: udtren/github-actions-composite-action@v1
         with:
           commit-message: 'Hello from prd'
       - run: echo random-number ${{ steps.foo.outputs.test-output }}
