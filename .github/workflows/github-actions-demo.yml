@@ -42,14 +42,15 @@ jobs:
           with open(env_file, "a") as envfile:
             envfile.write(f"env={env}")
         shell: python
-      - run: echo "${{ env.env }}"
       - name: show changed files
         id: show-changed-files
         run: |
            files_str = "${{ steps.changed-files.outputs.all_changed_files }}"
            files_array = files_str.split(",")
+           function_list = []
            for i in files_array:
-              print(i)
+              function_list.append(i.split("/")[1])
+           print(function_list)
         shell: python
 
       # - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
