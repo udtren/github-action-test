@@ -19,7 +19,7 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@v35
         with:
-          # files: root/**
+          files: root/**
           separator: ","
       # - run: |
       #      all_changed_file = ${{ steps.changed-files.outputs.all_changed_files }}
