@@ -2,6 +2,7 @@ name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions
 on: [push]
 env:
+  branch_name: ${{ github.ref }}
   base_s3_bucket_name: test
   aws_region: ap-northeast-1
 jobs:
@@ -31,8 +32,8 @@ jobs:
         with:
           script: |
               core.setFailed('No function file changed.')
-      - name: add branch name to Github env file
-        run: echo "branch_name=${{ github.ref }}" >> $GITHUB_ENV
+      # - name: add branch name to Github env file
+      #   run: echo "branch_name=${{ github.ref }}" >> $GITHUB_ENV
       - name: check branch name
         run: |
           import os
