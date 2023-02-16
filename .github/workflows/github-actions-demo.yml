@@ -27,7 +27,7 @@ jobs:
            for i in files_array:
               print(i)
         shell: python
-        # if: steps.changed-files-specific.outputs.any_changed == 'true'
+        if: steps.changed-files.outputs.any_changed == 'true'
       # - name: List all changed files
       #   run: |
       #     for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
