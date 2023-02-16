@@ -25,11 +25,11 @@ jobs:
           script: |
               core.setFailed('No function file changed.')
       - run: echo "branch_name=${{ github.ref }}" >> $GITHUB_ENV
-      - if: startsWith( env.branch_name, 'dev' ) == 'true'
+      - if: contains( env.branch_name, 'dev' ) == 'true'
         run: echo "env=dev" >> $GITHUB_ENV
-      - if: startsWith( env.branch_name, 'stg' ) == 'true'
+      - if: contains( env.branch_name, 'stg' ) == 'true'
         run: echo "env=stg" >> $GITHUB_ENV
-      - if: startsWith( env.branch_name, 'prd' ) == 'true'
+      - if: contains( env.branch_name, 'prd' ) == 'true'
         run: echo "env=prd" >> $GITHUB_ENV
       - name: show changed files
         id: show-changed-files
