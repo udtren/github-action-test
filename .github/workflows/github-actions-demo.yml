@@ -31,8 +31,10 @@ jobs:
           branch_name = os.environ['branch_name']
           if "dev" in branch_name:
               os.environ["env_"] = "dev"
+              print(1)
           elif "stg" in branch_name:
               os.environ["env_"] = "stg"
+              print(2)
           elif "prd" in branch_name:
               os.environ["env_"] = "prd"
           else:
