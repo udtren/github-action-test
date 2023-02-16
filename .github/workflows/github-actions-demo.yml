@@ -39,6 +39,7 @@ jobs:
               print("Branch name has no env info.")
               os._exit(1)
         shell: python
+      - run: echo "${{ env.env }}"
       - name: show changed files
         id: show-changed-files
         run: |
