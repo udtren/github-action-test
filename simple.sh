@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo $INPUT_TEST_VALUE
+echo $1
