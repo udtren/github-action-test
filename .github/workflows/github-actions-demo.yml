@@ -8,9 +8,6 @@ jobs:
     #   output1: ${{ steps.time1.outputs.time }}
     #   output2: ${{ steps.time2.outputs.time }}
     steps:
-      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v3
         with:
@@ -21,13 +18,31 @@ jobs:
         with:
           files: root/**
           separator: ","
-      - run: |
+      - name: A/B Check
+        if: steps.changed-files.outputs.any_changed != 'true'
+        uses: actions/github-script@v6
+        with:
+          script: |
+              core.setFailed('No function file changed.')
+      - run: echo "branch_name=${{ github.ref }}" >> $GITHUB_ENV
+      - if: startsWith( env.branch_name, dev ) == 'true'
+        run: echo "env=dev" >> $GITHUB_ENV
+      - if: startsWith( env.branch_name, stg ) == 'true'
+        run: echo "env=stg" >> $GITHUB_ENV
+      - if: startsWith( env.branch_name, prd ) == 'true'
+        run: echo "env=prd" >> $GITHUB_ENV
+      - name: show changed files
+        id: show-changed-files
+        run: |
            files_str = "${{ steps.changed-files.outputs.all_changed_files }}"
            files_array = files_str.split(",")
            for i in files_array:
               print(i)
         shell: python
-        if: steps.changed-files.outputs.any_changed == 'true'
+
+      # - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      # - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      # - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       # - name: List all changed files
       #   run: |
       #     for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
