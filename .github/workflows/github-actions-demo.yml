@@ -25,6 +25,7 @@ jobs:
           script: |
               core.setFailed('No function file changed.')
       - run: echo "branch_name=${{ github.ref }}" >> $GITHUB_ENV
+      - run: echo "${{ env.branch_name }}"
       - if: contains( ${{ env.branch_name }}, 'dev' ) == 'true'
         run: echo "env=dev" >> $GITHUB_ENV
       - if: contains( ${{ env.branch_name }}, 'stg' ) == 'true'
