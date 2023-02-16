@@ -28,7 +28,16 @@ jobs:
       - name: check branch name
         run: |
           import os
-          print(os.environ['branch_name'])
+          branch_name = os.environ['branch_name']
+          if "dev" in branch_name:
+              os.environ["env"] = "dev"
+          elif "stg" in branch_name:
+              os.environ["env"] = "stg"
+          elif "prd" in branch_name:
+              os.environ["env"] = "prd"
+          else:
+              print("Branch name has no env info.")
+              os._exit(1)
         shell: python
       - name: show changed files
         id: show-changed-files
