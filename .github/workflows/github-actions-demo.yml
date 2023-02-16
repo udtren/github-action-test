@@ -68,10 +68,10 @@ jobs:
         shell: python
       - name: generate terraform init command
         run: echo "terraform init -backend-config='bucket=${{ env.env }}-${{ env.base_s3_bucket_name}}' -backend-config='key=${{ env.env }}/${{ env.function }}.tfstate' -backend-config='region=${{ env.aws_region}}'"
-        working-directory: ./${{ env.function }}
+        working-directory: ./root/${{ env.function }}
       - name: generate terraform apply command
         run: echo "terraform apply -var-file ./env/${{ env.env }}.tfvars"
-        working-directory: ./${{ env.function }}
+        working-directory: ./root/${{ env.function }}
 
 
 
