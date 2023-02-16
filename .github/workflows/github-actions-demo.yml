@@ -21,7 +21,7 @@ jobs:
       - run: simple.sh
         shell: bash
         with:
-          test_value: steps.changed-files.outputs.all_changed_files
+          test_value: ${{ steps.changed-files.outputs.all_changed_files }} 
       # - name: List all changed files
       #   run: |
       #     for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
