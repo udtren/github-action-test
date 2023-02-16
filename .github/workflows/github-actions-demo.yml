@@ -18,10 +18,13 @@ jobs:
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v35
+        with:
+          files_ignore: .github/**
       - run: |
-           all_changed_file = ${{ steps.changed-files.outputs.all_changed_files }}.replace(".", "")
+           all_changed_file = ${{ steps.changed-files.outputs.all_changed_files }}
            print(all_changed_file)
         shell: python
+        if: steps.changed-files-excluded.outputs.any_changed == 'true'
       # - name: List all changed files
       #   run: |
       #     for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
