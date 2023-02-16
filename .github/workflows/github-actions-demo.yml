@@ -22,7 +22,7 @@ jobs:
           files: root/**
           separator: ","
       - run: |
-           all_changed_file = input(${{ steps.changed-files.outputs.all_changed_files }})
+           all_changed_file = "${{ steps.changed-files.outputs.all_changed_files }}"
            print(all_changed_file)
         shell: python
         # if: steps.changed-files-specific.outputs.any_changed == 'true'
