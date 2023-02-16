@@ -45,12 +45,18 @@ jobs:
       - name: show changed files
         id: show-changed-files
         run: |
+           import os
+           env_file = os.getenv('GITHUB_ENV')
            files_str = "${{ steps.changed-files.outputs.all_changed_files }}"
            files_array = files_str.split(",")
            function_list = []
            for i in files_array:
               function_list.append(i.split("/")[1])
-           print(function_list)
+           if length(function_list) != 1:
+              print("Need only one function changed.")
+              os._exit(1)
+           with open(env_file, "a") as envfile:
+              envfile.write(f"function={function_list[0]}")
         shell: python
 
       # - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
