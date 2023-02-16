@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10"]
+        python-version: ["3.9"]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -25,13 +25,14 @@ jobs:
         with:
           files: root/**
           separator: ","
-      - name: A/B Check
+      - name: check any file under root folder changed
         if: steps.changed-files.outputs.any_changed != 'true'
         uses: actions/github-script@v6
         with:
           script: |
               core.setFailed('No function file changed.')
-      - run: echo "branch_name=${{ github.ref }}" >> $GITHUB_ENV
+      - name: add branch name to Github env file
+        run: echo "branch_name=${{ github.ref }}" >> $GITHUB_ENV
       - name: check branch name
         run: |
           import os
@@ -49,7 +50,7 @@ jobs:
           with open(env_file, "a") as envfile:
             envfile.write(f"env={env}")
         shell: python
-      - name: show changed files
+      - name: check changed files
         id: show-changed-files
         run: |
            import os
@@ -65,7 +66,12 @@ jobs:
            with open(env_file, "a") as envfile:
               envfile.write(f"function={function_list[0]}")
         shell: python
-      - run: echo "terraform init -backend-config='bucket=${{ env.env }}-${{ env.base_s3_bucket_name}}' -backend-config='key=${{ env.env }}/${{ env.function }}.tfstate' -backend-config='region=${{ env.aws_region}}'"
+      - name: generate terraform init command
+        run: echo "terraform init -backend-config='bucket=${{ env.env }}-${{ env.base_s3_bucket_name}}' -backend-config='key=${{ env.env }}/${{ env.function }}.tfstate' -backend-config='region=${{ env.aws_region}}'"
+        working-directory: /root/{{ env.function }}
+      - name: generate terraform apply command
+        run: echo "terraform apply -var-file ./env/${{ env.env }}.tfvars"
+        working-directory: /root/{{ env.function }}
 
 
 
