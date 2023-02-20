@@ -32,8 +32,6 @@ jobs:
         with:
           script: |
               core.setFailed('No function file changed.')
-      # - name: add branch name to Github env file
-      #   run: echo "branch_name=${{ github.ref }}" >> $GITHUB_ENV
       - name: check branch name
         run: |
           import os
@@ -61,7 +59,7 @@ jobs:
            function_list = []
            for i in files_array:
               function_list.append(i.split("/")[1])
-           if len(function_list) != 1:
+           if len(set(function_list)) != 1:
               print("Need only one function changed.")
               os._exit(1)
            with open(env_file, "a") as envfile:
@@ -73,46 +71,3 @@ jobs:
       - name: generate terraform apply command
         run: echo "terraform apply -var-file ./env/${{ env.env }}.tfvars"
         working-directory: ./root/${{ env.function }}
-
-
-
-
-
-
-
-
-
-
-
-
-      # - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
-      # - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      # - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      # - name: List all changed files
-      #   run: |
-      #     for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-      #       echo "$file was changed"
-      #     done
-      # - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      # - name: List files in the repository
-      #   run: |
-      #     ls ${{ github.workspace }}
-      # - name: Wait 5 second
-      #   run: sleep 5s
-      # - name: Check time
-      #   id: time1
-      #   run: echo "time=$(date)" >> $GITHUB_OUTPUT
-      # - name: Wait 5 second
-      #   run: sleep 5s
-      # - name: Check time
-      #   id: time2
-      #   run: echo "time=$(date)" >> $GITHUB_OUTPUT
-      # - run: echo "🍏 This job's status is ${{ job.status }}."
-      # - name: Dump steps context
-      #   run: echo '${{ toJSON(steps) }}'
-      # - id: foo
-      #   uses: udtren/github-actions-composite-action@v1
-      #   with:
-      #     commit-message: 'Hello from prd'
-      # - run: echo random-number ${{ steps.foo.outputs.test-output }}
-      #   shell: bash
