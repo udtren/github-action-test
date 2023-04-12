@@ -1,0 +1,12 @@
+name: dev merge
+run-name: ${{ github.actor }} is testing out GitHub Actions
+on: 
+  push:
+    branches:
+      - 'dev'
+jobs: 
+  if_pushed: 
+    runs-on: ubuntu-latest 
+    steps: 
+      - run: | 
+           echo The PR was pushed
