@@ -8,8 +8,11 @@ jobs:
   if_pushed: 
     runs-on: ubuntu-latest 
     steps: 
+      - uses: actions/checkout@v3
       - run: | 
            echo The PR was pushed
+      - run: | 
+           ls -l
       - name: Dump GitHub context
         id: github_context_step
         run: echo '${{ toJSON(github) }}'
