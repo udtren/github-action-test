@@ -5,10 +5,18 @@ on:
     branches:
       - 'dev'
 jobs:
+  job-a:
+    runs-on: ubuntu-latest
+    outputs:
+      auth_token: ${{ steps.get-token.outputs.auth_token }}
+    steps:
+      - id: get-token
+        run: |
+          token=$(echo {"app1": {"key1": "value1"}, "app2": {"key1": "value1"}} | jq .) 
+          echo "::set-output name=auth_token::$token"
+
   example_matrix:
     runs-on: ubuntu-latest
-    env:
-      apps: {'app1': {'key1': 'value1'}, 'app2': {'key1': 'value1'}}
     strategy:
       matrix:
         app: ['app1', 'app2', 'app3']
@@ -17,9 +25,9 @@ jobs:
       - run: echo $app
         env:
           app: ${{ matrix.app }}
-      - run: echo $app
+      - run: echo $key
         env:
-          key: env.apps.${{ matrix.app }}
+          key: ${{ needs.job-a.outputs.auth_token }}
 # jobs: 
 #   if_pushed: 
 #     runs-on: ubuntu-latest 
