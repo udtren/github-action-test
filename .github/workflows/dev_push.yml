@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        app: [{'app1': {'key1': 'value1'}}, {'app2': {'key1': 'value1'}}, {'app3': {'key1': 'value1'}}]
+        app: ['app1', 'app2', 'app3']
     steps:
       - uses: actions/checkout@v3
       - run: echo $app
