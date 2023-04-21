@@ -14,6 +14,7 @@ jobs:
         run: |
           token=$(echo '{"app1": {"key1": "value1"}, "app2": {"key1": "value1"}}' | jq .) 
           echo "::set-output name=auth_token::$token"
+      - run: echo ${{ steps.get-token.outputs.auth_token}}
 
   example_matrix:
     needs: job-a
