@@ -7,6 +7,8 @@ on:
 jobs:
   example_matrix:
     runs-on: ubuntu-latest
+    env:
+      apps: {'app1': {'key1': 'value1'}, 'app2': {'key1': 'value1'}}
     strategy:
       matrix:
         app: ['app1', 'app2', 'app3']
@@ -15,6 +17,9 @@ jobs:
       - run: echo $app
         env:
           app: ${{ matrix.app }}
+      - run: echo $app
+        env:
+          key: env.apps.${{ matrix.app }}
 # jobs: 
 #   if_pushed: 
 #     runs-on: ubuntu-latest 
