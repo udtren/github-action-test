@@ -4,32 +4,51 @@ on:
   push:
     branches:
       - 'dev'
-jobs:
-  job-a:
-    runs-on: ubuntu-latest
-    outputs:
-      auth_token: ${{ steps.get-token.outputs.auth_token }}
-    steps:
-      - id: get-token
-        run: |
-          token=$(echo '{"app1": {"key1": "value1"}, "app2": {"key1": "value1"}}' | jq .) 
-          echo "auth_token=$token" >> "$GITHUB_OUTPUT"
-      - run: echo ${{ steps.get-token.outputs.auth_token}}
+# jobs:
+#   job-a:
+#     runs-on: ubuntu-latest
+#     outputs:
+#       auth_token: ${{ steps.get-token.outputs.auth_token }}
+#     steps:
+#       - id: get-token
+#         run: |
+#           token=$(echo '{"app1": {"key1": "value1"}, "app2": {"key1": "value1"}}' | jq .) 
+#           echo "auth_token=$token" >> "$GITHUB_OUTPUT"
+#       - run: echo ${{ steps.get-token.outputs.auth_token}}
 
-  example_matrix:
-    needs: job-a
+#   example_matrix:
+#     needs: job-a
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix:
+#         app: ['app1', 'app2', 'app3']
+#     steps:
+#       - uses: actions/checkout@v3
+#       - run: echo $app
+#         env:
+#           app: ${{ matrix.app }}
+#       - run: echo $key
+#         env:
+#           key: ${{ needs.job-a.outputs.auth_token }}
+
+jobs:
+  dump_contexts_to_log:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        app: ['app1', 'app2', 'app3']
     steps:
-      - uses: actions/checkout@v3
-      - run: echo $app
-        env:
-          app: ${{ matrix.app }}
-      - run: echo $key
-        env:
-          key: ${{ needs.job-a.outputs.auth_token }}
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+      - name: Dump job context
+        run: echo '${{ toJSON(job) }}'
+      - name: Dump steps context
+        run: echo '${{ toJSON(steps) }}'
+      - name: Dump runner context
+        run: echo '${{ toJSON(runner) }}'
+      - name: Dump strategy context
+        run: echo '${{ toJSON(strategy) }}'
+      - name: Dump matrix context
+        run: echo '${{ toJSON(matrix) }}'
+
 # jobs: 
 #   if_pushed: 
 #     runs-on: ubuntu-latest 
@@ -42,13 +61,13 @@ jobs:
 #       - name: Dump GitHub context
 #         id: github_context_step
 #         run: echo '${{ github['event']['commits'][0]['message'] }}'
-      # - name: Dump job context
-      #   run: echo '${{ toJSON(job) }}'
-      # - name: Dump steps context
-      #   run: echo '${{ toJSON(steps) }}'
-      # - name: Dump runner context
-      #   run: echo '${{ toJSON(runner) }}'
-      # - name: Dump strategy context
-      #   run: echo '${{ toJSON(strategy) }}'
-      # - name: Dump matrix context
-      #   run: echo '${{ toJSON(matrix) }}'
+#       - name: Dump job context
+#         run: echo '${{ toJSON(job) }}'
+#       - name: Dump steps context
+#         run: echo '${{ toJSON(steps) }}'
+#       - name: Dump runner context
+#         run: echo '${{ toJSON(runner) }}'
+#       - name: Dump strategy context
+#         run: echo '${{ toJSON(strategy) }}'
+#       - name: Dump matrix context
+#         run: echo '${{ toJSON(matrix) }}'
