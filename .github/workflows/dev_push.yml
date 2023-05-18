@@ -34,15 +34,17 @@ on:
 jobs:
   dump_contexts_to_log:
     runs-on: ubuntu-latest
+    outputs:
+      start_time: ${{ steps.start.outputs.start_time }}
+      stop_time: ${{ steps.stop.outputs.stop_time }}
     steps:
       - run: echo "start_time=$(date +%s)" >> "$GITHUB_OUTPUT"
+        id: start
       - name: Dump GitHub context
         id: github_context_step
         run: echo '${{ toJSON(github) }}'
       - name: Dump job context
         run: echo '${{ toJSON(job) }}'
-      - name: Dump steps context
-        run: echo '${{ toJSON(steps) }}'
       - name: Dump runner context
         run: echo '${{ toJSON(runner) }}'
       - name: Dump strategy context
@@ -50,6 +52,9 @@ jobs:
       - name: Dump matrix context
         run: echo '${{ toJSON(matrix) }}'
       - run: echo "stop_time=$(date +%s)" >> "$GITHUB_OUTPUT"
+        id: stop
+      - name: Dump steps context
+        run: echo '${{ toJSON(steps) }}'
 
 # jobs: 
 #   if_pushed: 
