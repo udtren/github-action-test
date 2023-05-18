@@ -35,6 +35,7 @@ jobs:
   dump_contexts_to_log:
     runs-on: ubuntu-latest
     steps:
+      - run: echo "start_time=$(date +%s)" >> "$GITHUB_OUTPUT"
       - name: Dump GitHub context
         id: github_context_step
         run: echo '${{ toJSON(github) }}'
@@ -48,6 +49,7 @@ jobs:
         run: echo '${{ toJSON(strategy) }}'
       - name: Dump matrix context
         run: echo '${{ toJSON(matrix) }}'
+      - run: echo "stop_time=$(date +%s)" >> "$GITHUB_OUTPUT"
 
 # jobs: 
 #   if_pushed: 
