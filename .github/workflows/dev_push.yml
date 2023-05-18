@@ -60,6 +60,13 @@ jobs:
       - name: Dump steps context
         run: echo '${{ toJSON(steps) }}'
 
+   check:
+    runs-on: ubuntu-latest
+    needs: [dump_contexts_to_log]
+    steps:
+      - run: echo ${{ job.dump_contexts_to_log.status}}
+
+
 # jobs: 
 #   if_pushed: 
 #     runs-on: ubuntu-latest 
