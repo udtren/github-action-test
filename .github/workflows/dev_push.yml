@@ -1,9 +1,9 @@
 name: dev merge
 run-name: ${{ github.actor }} is testing out GitHub Actions
-on: 
+on:
   push:
     branches:
-      - 'dev'
+      - "dev"
 # jobs:
 #   job-a:
 #     runs-on: ubuntu-latest
@@ -12,7 +12,7 @@ on:
 #     steps:
 #       - id: get-token
 #         run: |
-#           token=$(echo '{"app1": {"key1": "value1"}, "app2": {"key1": "value1"}}' | jq .) 
+#           token=$(echo '{"app1": {"key1": "value1"}, "app2": {"key1": "value1"}}' | jq .)
 #           echo "auth_token=$token" >> "$GITHUB_OUTPUT"
 #       - run: echo ${{ steps.get-token.outputs.auth_token}}
 
@@ -64,17 +64,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: [dump_contexts_to_log]
     steps:
-      - run: echo ${{ job.dump_contexts_to_log.status}}
-
-
-# jobs: 
-#   if_pushed: 
-#     runs-on: ubuntu-latest 
-#     steps: 
+      - run: echo "${{ job.dump_contexts_to_log.status}}"
+# jobs:
+#   if_pushed:
+#     runs-on: ubuntu-latest
+#     steps:
 #       - uses: actions/checkout@v3
-#       - run: | 
+#       - run: |
 #            echo The PR was pushed
-#       - run: | 
+#       - run: |
 #            ls -l
 #       - name: Dump GitHub context
 #         id: github_context_step
