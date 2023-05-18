@@ -37,6 +37,7 @@ jobs:
     outputs:
       start_time: ${{ steps.start.outputs.start_time }}
       stop_time: ${{ steps.stop.outputs.stop_time }}
+      time: ${{ steps.cost.outputs.time }}
     steps:
       - run: echo "start_time=$(date +%s)" >> "$GITHUB_OUTPUT"
         id: start
@@ -54,6 +55,7 @@ jobs:
       - run: echo "stop_time=$(date +%s)" >> "$GITHUB_OUTPUT"
         id: stop
       - run: echo "time=$(${{ steps.stop.outputs.stop_time }} - ${{ steps.start.outputs.start_time }})" >> "$GITHUB_OUTPUT"
+        id: cost
       - name: Dump steps context
         run: echo '${{ toJSON(steps) }}'
 
