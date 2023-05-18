@@ -41,24 +41,18 @@ jobs:
     steps:
       - run: echo "start_time=$(date +%s)" >> "$GITHUB_OUTPUT"
         id: start
-      - name: Dump GitHub context
-        id: github_context_step
-        run: echo '${{ toJSON(github) }}'
-      - name: Dump job context
-        run: echo '${{ toJSON(job) }}'
-      - name: Dump runner context
-        run: echo '${{ toJSON(runner) }}'
-      - name: Dump strategy context
-        run: echo '${{ toJSON(strategy) }}'
+
       - run: sleep 2
-      - name: Dump matrix context
-        run: echo '${{ toJSON(matrix) }}'
+
       - run: echo "stop_time=$(date +%s)" >> "$GITHUB_OUTPUT"
         id: stop
+
       - run: echo "time=$((${{ steps.stop.outputs.stop_time }} - ${{ steps.start.outputs.start_time }}))" >> "$GITHUB_OUTPUT"
         id: cost
-      - name: Dump steps context
-        run: echo '${{ toJSON(steps) }}'
+      
+      - id: fail
+        run: exit 1
+
       - id: summary
         if: ${{ always() }}
         run: echo "${{ job.status }} ${{ steps.start.outputs.start_time }} ${{ steps.stop.outputs.stop_time }} ${{ steps.cost.outputs.time }}"
