@@ -53,6 +53,7 @@ jobs:
         run: echo '${{ toJSON(matrix) }}'
       - run: echo "stop_time=$(date +%s)" >> "$GITHUB_OUTPUT"
         id: stop
+      - run: echo "time=$(${{ steps.stop.outputs.stop_time }} - ${{ steps.start.outputs.start_time }})" >> "$GITHUB_OUTPUT"
       - name: Dump steps context
         run: echo '${{ toJSON(steps) }}'
 
